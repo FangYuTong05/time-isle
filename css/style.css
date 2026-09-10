@@ -1,0 +1,649 @@
+/* ========================================
+   时屿 | Time Isle - 全局样式
+   ======================================== */
+
+/* ---------- 基础重置 ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- 波浪背景动画（浅色模式） ---------- */
+.wave-bg {
+  background-image: 
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 40px,
+      rgba(59, 110, 143, 0.02) 40px,
+      rgba(59, 110, 143, 0.02) 41px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 80px,
+      rgba(59, 110, 143, 0.015) 80px,
+      rgba(59, 110, 143, 0.015) 82px
+    );
+  animation: waveFlow 20s ease-in-out infinite;
+}
+
+@keyframes waveFlow {
+  0%, 100% {
+    background-position: 0 0, 0 0;
+  }
+  50% {
+    background-position: 0 10px, 0 -8px;
+  }
+}
+
+/* ---------- 星点粒子背景（深色模式） ---------- */
+.star-bg {
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, rgba(201, 162, 39, 0.3), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(201, 162, 39, 0.2), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(201, 162, 39, 0.25), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(201, 162, 39, 0.2), transparent),
+    radial-gradient(1px 1px at 160px 120px, rgba(201, 162, 39, 0.3), transparent),
+    radial-gradient(1.5px 1.5px at 200px 50px, rgba(59, 110, 143, 0.3), transparent),
+    radial-gradient(1px 1px at 250px 90px, rgba(201, 162, 39, 0.2), transparent),
+    radial-gradient(1px 1px at 300px 130px, rgba(201, 162, 39, 0.25), transparent),
+    radial-gradient(1px 1px at 350px 60px, rgba(59, 110, 143, 0.2), transparent),
+    radial-gradient(1.5px 1.5px at 400px 100px, rgba(201, 162, 39, 0.3), transparent);
+  background-size: 450px 150px;
+  animation: starTwinkle 8s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.4;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  50% {
+    opacity: 0.6;
+    background-position: 0 5px, 0 -3px, 0 4px, 0 -5px, 0 2px, 0 -4px, 0 3px, 0 -2px, 0 5px, 0 -3px;
+  }
+}
+
+/* ---------- 登录页海浪动画 ---------- */
+.isle-svg .wave {
+  animation-duration: 6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.isle-svg .wave1 {
+  animation-name: waveMove1;
+}
+
+.isle-svg .wave2 {
+  animation-name: waveMove2;
+  animation-delay: 0.5s;
+}
+
+.isle-svg .wave3 {
+  animation-name: waveMove3;
+  animation-delay: 1s;
+}
+
+@keyframes waveMove1 {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-15px); }
+}
+
+@keyframes waveMove2 {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+
+@keyframes waveMove3 {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-8px); }
+}
+
+/* 日晷指针转动 */
+.sundial-hand {
+  transform-origin: 400px 175px;
+  animation: sundialRotate 60s linear infinite;
+}
+
+@keyframes sundialRotate {
+  from { transform: rotate(-30deg); }
+  to { transform: rotate(30deg); }
+}
+
+/* ---------- 导航项激活样式 ---------- */
+.nav-item.active {
+  background-color: rgba(201, 162, 39, 0.1);
+  color: #C9A227;
+  font-weight: 500;
+}
+
+.nav-item.active svg {
+  color: #C9A227;
+}
+
+/* ---------- 卡片样式 ---------- */
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .card {
+  background: rgba(30, 32, 38, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.dark .card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- 页面淡入淡出 ---------- */
+.page-fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ---------- 标签样式 ---------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  background: rgba(59, 110, 143, 0.1);
+  color: #3B6E8F;
+  transition: all 0.2s ease;
+}
+
+.dark .tag {
+  background: rgba(59, 110, 143, 0.2);
+  color: #7AB0D4;
+}
+
+.tag-gold {
+  background: rgba(201, 162, 39, 0.1);
+  color: #C9A227;
+}
+
+.dark .tag-gold {
+  background: rgba(201, 162, 39, 0.2);
+  color: #D4B54A;
+}
+
+/* ---------- 按钮样式 ---------- */
+.btn-primary {
+  background: #3B6E8F;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #2D5A78;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #3B6E8F;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border: 1px solid #3B6E8F;
+  cursor: pointer;
+}
+
+.dark .btn-secondary {
+  color: #7AB0D4;
+  border-color: #7AB0D4;
+}
+
+.btn-secondary:hover {
+  background: rgba(59, 110, 143, 0.1);
+}
+
+/* ---------- 输入框样式 ---------- */
+.input-field {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.dark .input-field {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #E8E8E8;
+}
+
+.input-field:focus {
+  border-color: #3B6E8F;
+  box-shadow: 0 0 0 3px rgba(59, 110, 143, 0.1);
+}
+
+.dark .input-field:focus {
+  border-color: #7AB0D4;
+  box-shadow: 0 0 0 3px rgba(122, 176, 212, 0.1);
+}
+
+/* ---------- Tab 样式 ---------- */
+.tab-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #8A8A8A;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.dark .tab-btn {
+  color: #9CA3AF;
+}
+
+.tab-btn.active {
+  color: #C9A227;
+  border-bottom-color: #C9A227;
+  font-weight: 500;
+}
+
+.tab-btn:hover:not(.active) {
+  color: #2C2C2C;
+}
+
+.dark .tab-btn:hover:not(.active) {
+  color: #E8E8E8;
+}
+
+/* ---------- 滚动条美化 ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- 时间线样式 ---------- */
+.timeline-item {
+  position: relative;
+  padding-left: 20px;
+  padding-bottom: 16px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #C9A227;
+}
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 14px;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.dark .timeline-item::after {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.timeline-item:last-child::after {
+  display: none;
+}
+
+/* ---------- 看板列样式 ---------- */
+.kanban-column {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 300px;
+}
+
+.dark .kanban-column {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ---------- 日历样式 ---------- */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-day:hover {
+  background: rgba(59, 110, 143, 0.1);
+}
+
+.calendar-day.has-entry {
+  position: relative;
+}
+
+.calendar-day.has-entry::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #C9A227;
+}
+
+.calendar-day.today {
+  background: rgba(59, 110, 143, 0.15);
+  font-weight: 600;
+  color: #3B6E8F;
+}
+
+.dark .calendar-day.today {
+  background: rgba(122, 176, 212, 0.15);
+  color: #7AB0D4;
+}
+
+.calendar-day.selected {
+  background: #3B6E8F;
+  color: white;
+}
+
+/* ---------- Markdown 预览基础样式 ---------- */
+.markdown-preview h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.markdown-preview h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.markdown-preview h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.markdown-preview p {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.markdown-preview ul, .markdown-preview ol {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-preview li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-preview code {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: 'Consolas', monospace;
+}
+
+.dark .markdown-preview code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.markdown-preview blockquote {
+  border-left: 3px solid #C9A227;
+  padding-left: 12px;
+  margin: 0.75rem 0;
+  color: #8A8A8A;
+  font-style: italic;
+}
+
+.dark .markdown-preview blockquote {
+  color: #9CA3AF;
+}
+
+.markdown-preview a {
+  color: #3B6E8F;
+  text-decoration: underline;
+}
+
+.dark .markdown-preview a {
+  color: #7AB0D4;
+}
+
+/* ---------- 悬浮便签 ---------- */
+.floating-note-panel {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  z-index: 40;
+}
+
+/* ---------- Toast 动画 ---------- */
+.toast {
+  animation: toastSlideIn 0.3s ease;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast.toast-out {
+  animation: toastSlideOut 0.3s ease forwards;
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* ---------- 复选框自定义 ---------- */
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dark .custom-checkbox {
+  border-color: #555;
+}
+
+.custom-checkbox:checked {
+  background: #3B6E8F;
+  border-color: #3B6E8F;
+}
+
+.custom-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 768px) {
+  .sidebar {
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* ---------- 响应式数据卡片 ---------- */
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- 淡入动画工具类 ---------- */
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- 空状态 ---------- */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8A8A8A;
+}
+
+.dark .empty-state {
+  color: #9CA3AF;
+}
+
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  opacity: 0.4;
+}
+
+/* ---------- 分割线 ---------- */
+.divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 16px 0;
+}
+
+.dark .divider {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- 工具提示 ---------- */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
