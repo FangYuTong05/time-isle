@@ -48,6 +48,48 @@ const App = {
     }
   },
 
+  // 注册 Service Worker (PWA 支持)
+  registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) {
+      console.log('[PWA] Service Worker not supported');
+      return;
+    }
+
+    // 只在 HTTPS 或 localhost 环境下注册
+    const isLocalhost = window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname.startsWith('192.168.') ||
+      window.location.protocol === 'file:';
+    
+    if (!isLocalhost && window.location.protocol !== 'https:') {
+      console.log('[PWA] Service Worker requires HTTPS');
+      return;
+    }
+
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((registration) => {
+          console.log('[PWA] Service Worker registered:', registration.scope);
+          
+          // 检测更新
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            console.log('[PWA] New version found, installing...');
+            
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('[PWA] New version available');
+                // 可以在这里提示用户刷新
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.warn('[PWA] Service Worker registration failed:', error);
+        });
+    });
+  },
+
   // 显示登录页
   showLoginPage() {
     const loginPage = document.getElementById('login-page');
@@ -837,4 +879,5 @@ const App = {
 // ========== 页面加载完成后初始化 ==========
 document.addEventListener('DOMContentLoaded', () => {
   App.init();
+  App.registerServiceWorker();
 });
