@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景渐变 -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A8BAF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2D5A78;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="isleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5BA3C9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B6E8F;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)"/>
+  
+  <!-- 海浪装饰线 -->
+  <path d="M60,320 Q100,310 140,320 Q180,330 220,320 Q260,310 300,320 Q340,330 380,320 Q420,310 460,320" 
+        fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  <path d="M70,360 Q110,350 150,360 Q190,370 230,360 Q270,350 310,360 Q350,370 390,360 Q430,350 470,360" 
+        fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+  
+  <!-- 岛屿主体 -->
+  <path d="M100,280 
+           Q150,230 256,220 
+           Q362,230 412,280 
+           Q362,300 256,290 
+           Q150,300 100,280 Z" 
+        fill="url(#isleGrad)"/>
+  
+  <!-- 岛屿底部阴影 -->
+  <path d="M120,300 
+           Q170,320 256,315 
+           Q342,320 392,300 
+           Q342,340 256,350 
+           Q170,340 120,300 Z" 
+        fill="rgba(0,0,0,0.15)"/>
+  
+  <!-- 日晷表盘 -->
+  <ellipse cx="256" cy="220" rx="48" ry="16" fill="none" stroke="#C9A227" stroke-width="3.5" filter="url(#glow)"/>
+  
+  <!-- 日晷指针 -->
+  <line x1="256" y1="220" x2="256" y2="160" stroke="#C9A227" stroke-width="5" stroke-linecap="round" filter="url(#glow)"/>
+  
+  <!-- 指针顶部光点 -->
+  <circle cx="256" cy="158" r="6" fill="#F5D76E" filter="url(#glow)"/>
+  
+  <!-- 指针投影 -->
+  <line x1="256" y1="220" x2="275" y2="228" stroke="rgba(0,0,0,0.2)" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- 岛屿下方小海浪 -->
+  <path d="M130,370 Q170,355 210,370" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" fill="none"/>
+  <path d="M256,375 Q290,360 324,375" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
+  <path d="M340,365 Q370,352 400,365" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" fill="none"/>
+</svg>
