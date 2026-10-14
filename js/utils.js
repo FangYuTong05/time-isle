@@ -516,3 +516,204 @@ const GlobalSearch = {
     return results;
   }
 };
+
+// ========== 用户管理 ==========
+const UserManager = {
+  // 获取所有用户列表
+  getAllUsers() {
+    return Storage.get('users', []);
+  },
+
+  // 获取当前登录用户
+  getCurrentUser() {
+    const username = Storage.get('currentUser', null);
+    if (!username) return null;
+    const users = this.getAllUsers();
+    return users.find(u => u.username === username) || null;
+  },
+
+  // 检查用户名是否已存在
+  usernameExists(username) {
+    const users = this.getAllUsers();
+    return users.some(u => u.username === username.toLowerCase());
+  },
+
+  // 注册新用户
+  register(username, password, nickname, avatar = '') {
+    username = username.toLowerCase().trim();
+    nickname = nickname.trim();
+
+    if (!username || !password || !nickname) {
+      return { success: false, message: '请填写完整信息' };
+    }
+    if (username.length < 3) {
+      return { success: false, message: '账号至少3个字符' };
+    }
+    if (password.length < 6) {
+      return { success: false, message: '密码至少6位' };
+    }
+    if (this.usernameExists(username)) {
+      return { success: false, message: '该账号已被注册' };
+    }
+
+    const users = this.getAllUsers();
+    const newUser = {
+      username: username,
+      passwordHash: Crypto.hash(password),
+      nickname: nickname,
+      avatar: avatar || '', // base64 头像
+      createdAt: new Date().toISOString(),
+      lastLoginAt: null,
+      loginCount: 0
+    };
+
+    users.push(newUser);
+    Storage.set('users', users);
+
+    return { success: true, message: '注册成功', user: newUser };
+  },
+
+  // 登录
+  login(username, password) {
+    username = username.toLowerCase().trim();
+    const users = this.getAllUsers();
+    const user = users.find(u => u.username === username);
+
+    if (!user) {
+      return { success: false, message: '账号不存在' };
+    }
+    if (user.passwordHash !== Crypto.hash(password)) {
+      return { success: false, message: '密码错误' };
+    }
+
+    // 更新登录信息
+    user.lastLoginAt = new Date().toISOString();
+    user.loginCount = (user.loginCount || 0) + 1;
+    const userIndex = users.findIndex(u => u.username === username);
+    users[userIndex] = user;
+    Storage.set('users', users);
+
+    // 设置当前登录用户
+    Storage.set('currentUser', username);
+
+    // 记录访问
+    VisitLogger.record('login', '用户登录');
+
+    return { success: true, message: '登录成功', user: user };
+  },
+
+  // 登出
+  logout() {
+    VisitLogger.record('logout', '用户登出');
+    Storage.remove('currentUser');
+    return true;
+  },
+
+  // 修改用户信息
+  updateProfile(data) {
+    const username = Storage.get('currentUser', null);
+    if (!username) return { success: false, message: '未登录' };
+
+    const users = this.getAllUsers();
+    const userIndex = users.findIndex(u => u.username === username);
+    if (userIndex === -1) return { success: false, message: '用户不存在' };
+
+    if (data.nickname !== undefined) {
+      users[userIndex].nickname = data.nickname.trim();
+    }
+    if (data.avatar !== undefined) {
+      users[userIndex].avatar = data.avatar;
+    }
+    if (data.newPassword) {
+      users[userIndex].passwordHash = Crypto.hash(data.newPassword);
+    }
+
+    Storage.set('users', users);
+    return { success: true, message: '修改成功', user: users[userIndex] };
+  },
+
+  // 验证密码
+  verifyPassword(password) {
+    const user = this.getCurrentUser();
+    if (!user) return false;
+    return user.passwordHash === Crypto.hash(password);
+  },
+
+  // 注销账号
+  deleteAccount() {
+    const username = Storage.get('currentUser', null);
+    if (!username) return false;
+
+    const users = this.getAllUsers();
+    const filtered = users.filter(u => u.username !== username);
+    Storage.set('users', filtered);
+    Storage.remove('currentUser');
+
+    // 清除所有业务数据
+    const keysToRemove = ['knowledge', 'diaries', 'todos', 'accounts', 'items',
+      'passwords', 'links', 'fragments', 'ideas', 'thoughtExperiments',
+      'debates', 'questions', 'subscriptions', 'floatingNote'];
+    keysToRemove.forEach(k => Storage.remove(k));
+
+    return true;
+  },
+
+  // 检查是否已登录
+  isLoggedIn() {
+    return !!Storage.get('currentUser', null);
+  }
+};
+
+// ========== 访问记录 ==========
+const VisitLogger = {
+  // 获取所有记录
+  getRecords() {
+    return Storage.get('visitRecords', []);
+  },
+
+  // 记录一次访问/操作
+  record(action, description = '') {
+    const records = this.getRecords();
+    const record = {
+      id: 'visit_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+      action: action,
+      description: description,
+      timestamp: new Date().toISOString(),
+      user: Storage.get('currentUser', 'guest')
+    };
+    records.unshift(record);
+    // 最多保留 200 条记录
+    if (records.length > 200) {
+      records.length = 200;
+    }
+    Storage.set('visitRecords', records);
+    return record;
+  },
+
+  // 记录页面访问
+  recordPageView(pageName) {
+    const pageNames = {
+      'dashboard': '屿中·仪表盘',
+      'knowledge': '万象阁·知识库',
+      'daily': '日课湾·日常中心',
+      'assets': '归藏库·资产中心',
+      'diary': '光阴簿·潮汐日志',
+      'thinking': '观星台·思维实验室',
+      'tools': '百工坊·工具百宝箱',
+      'settings': '设置'
+    };
+    this.record('page_view', pageNames[pageName] || pageName);
+  },
+
+  // 获取今日访问次数
+  getTodayCount() {
+    const records = this.getRecords();
+    const today = new Date().toDateString();
+    return records.filter(r => new Date(r.timestamp).toDateString() === today).length;
+  },
+
+  // 清除记录
+  clear() {
+    Storage.remove('visitRecords');
+  }
+};

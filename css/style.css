@@ -75,6 +75,48 @@ body {
   }
 }
 
+/* ---------- 登录页入场动画 ---------- */
+.login-page-container {
+  overflow: hidden;
+}
+
+/* 岛屿 SVG 上浮动画 */
+.login-page-container.show .login-svg-wrapper .isle-svg {
+  animation: isleRise 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes isleRise {
+  0% {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 登录表单淡入上移 */
+.login-page-container.show .relative.z-10 {
+  animation: formFadeIn 1s ease-out 0.8s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes formFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---------- 登录页海浪动画 ---------- */
 .isle-svg .wave {
   animation-duration: 6s;
@@ -114,6 +156,7 @@ body {
 /* 日晷指针转动 */
 .sundial-hand {
   transform-origin: 400px 175px;
+  transform-box: view-box;
   animation: sundialRotate 60s linear infinite;
 }
 

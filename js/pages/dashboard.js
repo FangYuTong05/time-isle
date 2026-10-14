@@ -28,17 +28,24 @@ const DashboardPage = {
 
     // 获取最近记录
     const recentActivities = this.getRecentActivities();
+    const user = UserManager.getCurrentUser();
+    const nickname = user ? user.nickname : '岛主';
 
     container.innerHTML = `
       <div class="fade-in space-y-6">
         <!-- 顶部问候区 -->
         <div class="card p-6 md:p-8">
           <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-            <div>
-              <h1 class="font-serif text-2xl md:text-3xl font-medium mb-2">
-                时淮序，今天是 ${dateStr}。
-              </h1>
-              <p class="text-secondary font-medium">${weather}</p>
+            <div class="flex items-start space-x-4">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-primary text-xl font-serif flex-shrink-0 overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">
+                ${user && user.avatar ? `<img src="${user.avatar}" class="w-full h-full object-cover" alt="avatar">` : nickname.charAt(0)}
+              </div>
+              <div>
+                <h1 class="font-serif text-2xl md:text-3xl font-medium mb-2">
+                  ${nickname}，今天是 ${dateStr}。
+                </h1>
+                <p class="text-secondary font-medium">${weather}</p>
+              </div>
             </div>
           </div>
           <div class="divider my-4"></div>
