@@ -11,11 +11,81 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* 减少顶部空白，内容更紧凑 */
+#page-container {
+  padding-top: 1.25rem !important;
+}
+
+/* 页面标题区域更紧凑 */
+#page-container > .fade-in > div:first-child {
+  margin-bottom: 0.75rem;
+}
+
+#page-container > .fade-in > div:first-child h1 {
+  margin-bottom: 0.25rem !important;
+}
+
+#page-container > .fade-in > div:first-child p {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* 移动端内容更紧凑 */
+@media (max-width: 768px) {
+  #page-container {
+    padding: 0.5rem 0.875rem 1.25rem 0.875rem !important;
+  }
+
+  /* 移动端卡片间距更小 */
+  #page-container .space-y-6 > * + * {
+    margin-top: 0.625rem !important;
+  }
+
+  /* 移动端标题更小 */
+  #page-container h1 {
+    font-size: 1.25rem !important;
+  }
+
+  #page-container h2 {
+    font-size: 1.1rem !important;
+  }
+
+  #page-container h3 {
+    font-size: 0.95rem !important;
+  }
+
+  /* 移动端卡片内边距更小 */
+  #page-container .card {
+    padding: 0.75rem !important;
+  }
+
+  /* 移动端页面标题区域更紧凑 */
+  #page-container > .fade-in > div:first-child {
+    gap: 0.375rem !important;
+    margin-bottom: 0.375rem;
+  }
+
+  /* 移动端按钮更小 */
+  #page-container .btn-primary {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* 桌面端也减小顶部间距 */
+@media (min-width: 768px) {
+  #page-container {
+    padding-top: 1.5rem !important;
+  }
 }
 
 /* ---------- 波浪背景动画（浅色模式） ---------- */
