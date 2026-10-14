@@ -34,7 +34,7 @@ const DashboardPage = {
     container.innerHTML = `
       <div class="fade-in space-y-6">
         <!-- 顶部问候区 -->
-        <div class="card p-6 md:p-8">
+        <div class="pt-2 pb-4 md:pt-4 md:pb-6">
           <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div class="flex items-start space-x-4">
               <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-primary text-xl font-serif flex-shrink-0 overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">

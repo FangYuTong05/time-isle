@@ -64,7 +64,7 @@ const KnowledgePage = {
         </div>
 
         <!-- 搜索和分类 -->
-        <div class="card p-4">
+        <div class="py-2">
           <div class="flex flex-col md:flex-row gap-4">
             <!-- 搜索框 -->
             <div class="flex-1 relative">
